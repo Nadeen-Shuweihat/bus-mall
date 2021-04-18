@@ -9,6 +9,7 @@ let maxAtt = 25;
 let counts = 0;
 
 
+
 let firstIndex;
 let secondIndex;
 let thirdIndex;
@@ -20,6 +21,7 @@ function Mall(name, source) {
   this.name = name;
   this.source = source;
   this.votes = 0;
+  this.shown = 0;
   Mall.arrImages.push(this);
 
 }
@@ -63,9 +65,9 @@ function renderThreeImages() {
     secondIndex = generateRandomIndex();
   }
 
-  firstImage.setAttribute('src', Mall.arrImages[firstIndex].source);
-  secondImage.setAttribute('src', Mall.arrImages[secondIndex].source);
-  thirdImage.setAttribute('src', Mall.arrImages[thirdIndex].source);
+  firstImage.setAttribute('src', Mall.arrImages[firstIndex].source ,Mall.arrImages[firstIndex].shown++);
+  secondImage.setAttribute('src', Mall.arrImages[secondIndex].source,Mall.arrImages[secondIndex].shown++);
+  thirdImage.setAttribute('src', Mall.arrImages[thirdIndex].source, Mall.arrImages[thirdIndex].shown++);
 
 
 }
@@ -74,8 +76,6 @@ renderThreeImages();
 firstImage.addEventListener('click', handleClicking);
 secondImage.addEventListener('click', handleClicking);
 thirdImage.addEventListener('click', handleClicking);
-
-
 
 
 
@@ -100,20 +100,10 @@ function handleClicking(event) {
       li.textContent = `${Mall.arrImages[i].name} had ${Mall.arrImages[i].votes} votes, and was seen ${Mall.arrImages[i].shown}`;
     }
 
+
+
     firstImage.removeEventListener('click', handleClicking);
     secondImage.removeEventListener('click', handleClicking);
     thirdImage.removeEventListener('click', handleClicking);
   }
 }
-
-//     shown ++;
-//   if (Mall.arrImages.id === 'first-img') {
-//     Mall.arrImages[firstIndex].shown++;
-//   } else if (Mall.arrImages.id === 'second-img') {
-//     Mall.arrImages[secondIndex].shown++;
-//   } else if(Mall.arrImages.id === 'third-img'){
-//     Mall.arrImages[thirdIndex].shown++;
-//   }
-
-// }
-//   Shownimg();
