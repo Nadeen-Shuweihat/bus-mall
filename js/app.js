@@ -3,6 +3,8 @@
 let firstImage = document.getElementById('first-img');
 let secondImage = document.getElementById('second-img');
 let thirdImage = document.getElementById('third-img');
+let container = document.getElementById('imgsec');
+let list = document.getElementById('list');
 
 
 let maxAtt = 25;
@@ -13,8 +15,15 @@ let counts = 0;
 let firstIndex;
 let secondIndex;
 let thirdIndex;
+let arrIndex=[];
+
+let arrOfnames = [];
+let arrOfVotes = [];
+let arrOfShown = [];
+
 
 Mall.arrImages = [];
+
 
 
 function Mall(name, source) {
@@ -23,6 +32,7 @@ function Mall(name, source) {
   this.votes = 0;
   this.shown = 0;
   Mall.arrImages.push(this);
+  arrOfnames.push(this.name);
 
 }
 //console.log(Mall.arrImages);
@@ -60,11 +70,18 @@ function renderThreeImages() {
   secondIndex = generateRandomIndex();
   thirdIndex = generateRandomIndex();
 
-  while (firstIndex === secondIndex || firstIndex === thirdIndex || secondIndex === thirdIndex) {
+ 
+
+  while (firstIndex === secondIndex || firstIndex === thirdIndex || secondIndex === thirdIndex || arrIndex.includes(firstIndex) || arrIndex.includes(secondIndex) || arrIndex.includes(thirdIndex)){
     firstIndex = generateRandomIndex();
     secondIndex = generateRandomIndex();
+    thirdIndex = generateRandomIndex();
   }
 
+  arrIndex[0] = firstIndex;
+  arrIndex[1] = secondIndex;
+  arrIndex[2] = thirdIndex;
+  
   firstImage.setAttribute('src', Mall.arrImages[firstIndex].source ,Mall.arrImages[firstIndex].shown++);
   secondImage.setAttribute('src', Mall.arrImages[secondIndex].source,Mall.arrImages[secondIndex].shown++);
   thirdImage.setAttribute('src', Mall.arrImages[thirdIndex].source, Mall.arrImages[thirdIndex].shown++);
@@ -73,9 +90,10 @@ function renderThreeImages() {
 }
 renderThreeImages();
 
-firstImage.addEventListener('click', handleClicking);
-secondImage.addEventListener('click', handleClicking);
-thirdImage.addEventListener('click', handleClicking);
+container.addEventListener('click',handleClicking);
+// firstImage.addEventListener('click', handleClicking);
+// secondImage.addEventListener('click', handleClicking);
+// thirdImage.addEventListener('click', handleClicking);
 
 
 
@@ -93,17 +111,59 @@ function handleClicking(event) {
     renderThreeImages();
   }
   else {
-    let ul = document.getElementById('unordered');
-    for (let i = 0; i < Mall.arrImages.length; i++) {
-      let li = document.createElement('li');
-      ul.appendChild(li);
-      li.textContent = `${Mall.arrImages[i].name} had ${Mall.arrImages[i].votes} votes, and was seen ${Mall.arrImages[i].shown}`;
-    }
 
 
+    container.removeEventListener('click',handleClicking);
 
-    firstImage.removeEventListener('click', handleClicking);
-    secondImage.removeEventListener('click', handleClicking);
-    thirdImage.removeEventListener('click', handleClicking);
+    // firstImage.removeEventListener('click', handleClicking);
+    // secondImage.removeEventListener('click', handleClicking);
+    // thirdImage.removeEventListener('click', handleClicking);
   }
+
+}
+
+
+let button = document.getElementById('btn');
+// list.appendChild(button);
+button.addEventListener('click', showingList);
+
+function showingList(){
+  let ul = document.getElementById('unordered');
+  list.appendChild(ul);
+  for (let i = 0; i < Mall.arrImages.length; i++) {
+    arrOfVotes.push(Mall.arrImages[i].votes);
+    arrOfShown.push(Mall.arrImages[i].shown);
+    let li = document.createElement('li');
+    ul.appendChild(li);
+    li.textContent = `${Mall.arrImages[i].name} had ${Mall.arrImages[i].votes} votes, and was seen ${Mall.arrImages[i].shown}`;
+  }
+
+  button.removeEventListener('click',showingList);
+  chart();
+}
+
+
+function chart(){
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: arrOfnames,
+      datasets: [{
+        label: 'Number Of votes',
+        data: arrOfVotes,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+        ],
+        borderWidth: 1
+      },{
+        label:'# of Shown',
+        data: arrOfShown,
+        backgroundColor:[
+          'rgb(192,192,192)'
+        ],
+        borderWidth: 1
+      }]
+    }
+  });
 }
