@@ -16,6 +16,12 @@ let firstIndex;
 let secondIndex;
 let thirdIndex;
 
+
+let arrOfnames = [];
+let arrOfVotes = [];
+let arrOfShown = [];
+
+
 Mall.arrImages = [];
 
 
@@ -25,6 +31,7 @@ function Mall(name, source) {
   this.votes = 0;
   this.shown = 0;
   Mall.arrImages.push(this);
+  arrOfnames.push(this.name);
 
 }
 //console.log(Mall.arrImages);
@@ -96,6 +103,7 @@ function handleClicking(event) {
     renderThreeImages();
   }
   else {
+    chart();
 
     container.removeEventListener('click',handleClicking);
 
@@ -122,3 +130,32 @@ function showingList(){
 
   button.removeEventListener('click',showingList);
 }
+
+
+
+function chart(){
+  let ctx = document.getElementById('mallChart');
+  let mallChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: arrOfnames,
+      datasets: [{
+        label: 'Number Of votes',
+        data: arrOfVotes,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+        ],
+        borderWidth: 1
+      },{
+        label:'# of Shown',
+        data: arrOfShown,
+        backgroundColor:[
+          'rgb(192,192,192)'
+        ],
+        borderWidth: 1
+      }]
+    }
+  });
+}
+
+
