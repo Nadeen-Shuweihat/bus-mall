@@ -15,7 +15,7 @@ let counts = 0;
 let firstIndex;
 let secondIndex;
 let thirdIndex;
-
+let arrIndex=[];
 
 let arrOfnames = [];
 let arrOfVotes = [];
@@ -23,6 +23,7 @@ let arrOfShown = [];
 
 
 Mall.arrImages = [];
+
 
 
 function Mall(name, source) {
@@ -69,11 +70,18 @@ function renderThreeImages() {
   secondIndex = generateRandomIndex();
   thirdIndex = generateRandomIndex();
 
-  while (firstIndex === secondIndex || firstIndex === thirdIndex || secondIndex === thirdIndex) {
+ 
+
+  while (firstIndex === secondIndex || firstIndex === thirdIndex || secondIndex === thirdIndex || arrIndex.includes(firstIndex) || arrIndex.includes(secondIndex) || arrIndex.includes(thirdIndex)){
     firstIndex = generateRandomIndex();
     secondIndex = generateRandomIndex();
+    thirdIndex = generateRandomIndex();
   }
 
+  arrIndex[0] = firstIndex;
+  arrIndex[1] = secondIndex;
+  arrIndex[2] = thirdIndex;
+  
   firstImage.setAttribute('src', Mall.arrImages[firstIndex].source ,Mall.arrImages[firstIndex].shown++);
   secondImage.setAttribute('src', Mall.arrImages[secondIndex].source,Mall.arrImages[secondIndex].shown++);
   thirdImage.setAttribute('src', Mall.arrImages[thirdIndex].source, Mall.arrImages[thirdIndex].shown++);
