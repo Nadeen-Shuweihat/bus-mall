@@ -3,6 +3,8 @@
 let firstImage = document.getElementById('first-img');
 let secondImage = document.getElementById('second-img');
 let thirdImage = document.getElementById('third-img');
+let container = document.getElementById('imgsec');
+let list = document.getElementById('list');
 
 
 let maxAtt = 25;
@@ -73,9 +75,10 @@ function renderThreeImages() {
 }
 renderThreeImages();
 
-firstImage.addEventListener('click', handleClicking);
-secondImage.addEventListener('click', handleClicking);
-thirdImage.addEventListener('click', handleClicking);
+container.addEventListener('click',handleClicking);
+// firstImage.addEventListener('click', handleClicking);
+// secondImage.addEventListener('click', handleClicking);
+// thirdImage.addEventListener('click', handleClicking);
 
 
 
@@ -93,17 +96,29 @@ function handleClicking(event) {
     renderThreeImages();
   }
   else {
-    let ul = document.getElementById('unordered');
-    for (let i = 0; i < Mall.arrImages.length; i++) {
-      let li = document.createElement('li');
-      ul.appendChild(li);
-      li.textContent = `${Mall.arrImages[i].name} had ${Mall.arrImages[i].votes} votes, and was seen ${Mall.arrImages[i].shown}`;
-    }
 
+    container.removeEventListener('click',handleClicking);
 
-
-    firstImage.removeEventListener('click', handleClicking);
-    secondImage.removeEventListener('click', handleClicking);
-    thirdImage.removeEventListener('click', handleClicking);
+    // firstImage.removeEventListener('click', handleClicking);
+    // secondImage.removeEventListener('click', handleClicking);
+    // thirdImage.removeEventListener('click', handleClicking);
   }
+
+}
+
+
+let button = document.getElementById('btn');
+// list.appendChild(button);
+button.addEventListener('click', showingList);
+
+function showingList(){
+  let ul = document.getElementById('unordered');
+  list.appendChild(ul);
+  for (let i = 0; i < Mall.arrImages.length; i++) {
+    let li = document.createElement('li');
+    ul.appendChild(li);
+    li.textContent = `${Mall.arrImages[i].name} had ${Mall.arrImages[i].votes} votes, and was seen ${Mall.arrImages[i].shown}`;
+  }
+
+  button.removeEventListener('click',showingList);
 }
