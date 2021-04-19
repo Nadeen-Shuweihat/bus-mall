@@ -103,7 +103,7 @@ function handleClicking(event) {
     renderThreeImages();
   }
   else {
-    chart();
+
 
     container.removeEventListener('click',handleClicking);
 
@@ -123,19 +123,21 @@ function showingList(){
   let ul = document.getElementById('unordered');
   list.appendChild(ul);
   for (let i = 0; i < Mall.arrImages.length; i++) {
+    arrOfVotes.push(Mall.arrImages[i].votes);
+    arrOfShown.push(Mall.arrImages[i].shown);
     let li = document.createElement('li');
     ul.appendChild(li);
     li.textContent = `${Mall.arrImages[i].name} had ${Mall.arrImages[i].votes} votes, and was seen ${Mall.arrImages[i].shown}`;
   }
 
   button.removeEventListener('click',showingList);
+  chart();
 }
 
 
-
 function chart(){
-  let ctx = document.getElementById('mallChart');
-  let mallChart = new Chart(ctx, {
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: arrOfnames,
@@ -157,5 +159,3 @@ function chart(){
     }
   });
 }
-
-
