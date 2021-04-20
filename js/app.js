@@ -70,7 +70,7 @@ function renderThreeImages() {
   secondIndex = generateRandomIndex();
   thirdIndex = generateRandomIndex();
 
- 
+
 
   while (firstIndex === secondIndex || firstIndex === thirdIndex || secondIndex === thirdIndex || arrIndex.includes(firstIndex) || arrIndex.includes(secondIndex) || arrIndex.includes(thirdIndex)){
     firstIndex = generateRandomIndex();
@@ -81,7 +81,7 @@ function renderThreeImages() {
   arrIndex[0] = firstIndex;
   arrIndex[1] = secondIndex;
   arrIndex[2] = thirdIndex;
-  
+
   firstImage.setAttribute('src', Mall.arrImages[firstIndex].source ,Mall.arrImages[firstIndex].shown++);
   secondImage.setAttribute('src', Mall.arrImages[secondIndex].source,Mall.arrImages[secondIndex].shown++);
   thirdImage.setAttribute('src', Mall.arrImages[thirdIndex].source, Mall.arrImages[thirdIndex].shown++);
@@ -108,6 +108,7 @@ function handleClicking(event) {
     } else if (event.target.id === 'third-img') {
       Mall.arrImages[thirdIndex].votes++;
     }
+    Saving();
     renderThreeImages();
   }
   else {
@@ -140,8 +141,25 @@ function showingList(){
 
   button.removeEventListener('click',showingList);
   chart();
+ 
+ 
 }
 
+function Saving(){
+  let stData = JSON.stringify(Mall.arrImages);
+  localStorage.setItem('Item',stData);
+
+}
+
+
+function Newsave(){
+  let previousCh = JSON.parse(localStorage.getItem('Item'));
+  if (previousCh !== null){
+    Mall.arrImages = previousCh;
+  }
+}
+
+Newsave();
 
 function chart(){
   let ctx = document.getElementById('myChart').getContext('2d');
